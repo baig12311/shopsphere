@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { z } from 'zod';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
+import { useToast } from '../../../src/context/ToastContext';
 import Colors from '../../../src/constants/colors';
 import { supabase } from '../../../src/lib/supabase';
 import PasswordRequirements from '../../../src/components/auth/PasswrodCheck';
@@ -31,6 +31,7 @@ const passwordSchema = z
     });
 
 const ResetPassword = () => {
+    const {showToast} = useToast();
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -38,23 +39,6 @@ const ResetPassword = () => {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const [loading, setLoading] = useState(false);
-
-    const [toastVisible, setToastVisible] = useState(false);
-    const [toastTitle, setToastTitle] = useState('');
-    const [toastDescription, setToastDescription] = useState('');
-    const [toastType, setToastType] = useState<'success' | 'error'>('success');
-
-    const showToast = (
-        title: string,
-        description: string,
-        type: 'success' | 'error'
-    ) => {
-        setToastTitle(title);
-        setToastDescription(description);
-        setToastType(type);
-        setToastVisible(true);
-    };
-
     const handleUpdatePassword = async () => {
         if (loading) return;
 
@@ -85,36 +69,38 @@ const ResetPassword = () => {
 
             if (error) {
                 showToast(
-                    'Password Update Failed',
-                    error.message,
-                    'error'
+                    'error',
+                    'Password Reset Failed',
+                    error.message || 'Something went wrong. Please try again.'
+                    //'Something went wrong. Please try again.'
                 );
                 return;
             }
 
             showToast(
-                'Password Updated',
-                'Your password has been changed successfully.',
-                'success'
+                'success',
+                'Password Reset',
+                'Your password has been reset successfully.',
             );
+            router.replace('/(auth)/login/Login');
         } catch {
             showToast(
-                'Something Went Wrong',
-                'Unable to update your password. Please try again.',
-                'error'
+                'error',
+                    'Password Reset Failed',
+                    'Something went wrong. Please try again.'
             );
         } finally {
             setLoading(false);
         }
     };
 
-    const handleToastHide = () => {
-        setToastVisible(false);
+   
+        
 
-        if (toastType === 'success') {
-            router.replace('/(auth)/login/Login');
-        }
-    };
+       
+            
+        
+   
 
     return (
         <SafeAreaView style={styles.container}>
@@ -185,13 +171,7 @@ const ResetPassword = () => {
                 </View>
             </View>
 
-            <CustomToast
-                visible={toastVisible}
-                messageTitle={toastTitle}
-                messageDescription={toastDescription}
-                type={toastType}
-                onHide={handleToastHide}
-            />
+            
         </SafeAreaView>
     );
 };

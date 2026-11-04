@@ -106,10 +106,15 @@ const Inventory = () => {
                 renderItem={renderProduct}
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
-                ListEmptyComponent={<CustomEmptyComponent
-                    illustration={require('../../assets/illustrations/noproduct.png')}
-                    mainText='Nothing in your inventory yet'
-                    subText='Add products to start tracking stock, prices, and availability.'
+                ListEmptyComponent={
+                <CustomEmptyComponent
+                    illustration={
+                        searchText.trim() !== '' ? undefined :
+                        require('../../assets/illustrations/noproduct.png')
+                    }
+                    mainText={searchText.trim() !== '' ? 'No Matching Products' : 'No Products Yet'}
+                    subText={searchText.trim() !== '' ? "We couldn't find any product matching your search. Try a different keyword." : 
+                        'Your products will appear here once you add them to your inventory.'}
                 />}
             />
             {/* </View> */}

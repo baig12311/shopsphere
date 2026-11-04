@@ -87,7 +87,7 @@ const ForgotPassword = () => {
                 />
                 <View style={styles.button}>
                     <Button
-                        title='Send reset link'
+                        title='Send Reset Link'
                         disabled={!email}
                         onPress={handleSend}
                         isLoading={loading}

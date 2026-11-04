@@ -1,10 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, TouchableOpacity, Image} from 'react-native';
+import {
+    View, Text, StyleSheet, ScrollView,
+    KeyboardAvoidingView, Platform, TouchableOpacity,
+    ActivityIndicator,
+    Image
+}
+    from 'react-native';
 import styles from './BusinessInfoStyle';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input from '../../../src/components/common/Input';
 import SelectInput from '../../../src/components/common/SelectInput';
 import Button from '../../../src/components/common/Button';
+import CustomEmptyComponent from '../../../src/components/common/CustomEmptyComponent';
 import { useBusiness } from '../../../src/hooks/useBusiness';
 import { parsePhoneNumberFromString, CountryCode, PhoneNumber } from 'libphonenumber-js';
 import { takePhoto, pickFromLibrary } from '../../../src/services/imagePicker';
@@ -41,12 +48,13 @@ type selected = {
     code: CountryCode
 }
 const BusinessSetup = () => {
-    const {showToast} = useToast()
+    const { showToast } = useToast()
     const queryClient = useQueryClient();
 
-    const { data: user, isLoading, error } = useUser()
-    const { data: business, isLoading: businessLoading, error: businessError } = useBusiness(user?.id)
-
+    const { data: user, isLoading: userLoading, error: userError, refetch: userRefetch } = useUser()
+    const { data: business, isLoading: businessLoading, error: businessError, refetch: businessRefetch } = useBusiness(user?.id)
+    const isLoadingData = userLoading || businessLoading
+    const isErrorFetching = userError || businessError
     const [loading, setLoading] = useState(false)
     const [businessType, setBusinessType] = useState('')
     const [displayKeys, setDisplayKeys] = useState<string[]>([])
@@ -116,7 +124,7 @@ const BusinessSetup = () => {
     const originalName = business?.name ?? '';
     const originalCategory = business?.category ?? '';
     const originalType = business?.business_type ?? ''
-
+    const originalImage = business?.logo_url ?? '';
     const originalNumber =
         parsePhoneNumberFromString(
             business?.whatsapp_number ?? ''
@@ -138,13 +146,15 @@ const BusinessSetup = () => {
         businessType.trim() !== '' &&
         businessType !== originalType
 
+    const imageChanged = image !== originalImage;
+
     const hasChanges =
-        nameChanged || categoryChanged || numberChanged || typeChanged;
+        nameChanged || categoryChanged || numberChanged || typeChanged || imageChanged;
 
     const isEditing =
         showName || showNumber || showCategory || showType;
 
-    const showSaveButton = isEditing && hasChanges;
+    const showSaveButton = hasChanges;
     // Open Sheet
     const openSheet = (
         title: string,
@@ -281,6 +291,7 @@ const BusinessSetup = () => {
                 'Business details have been updated successfully.'
             )
             closeAllEditModes()
+            router.back()
 
         } catch (error) {
 
@@ -293,6 +304,45 @@ const BusinessSetup = () => {
             setLoading(false);
         }
     };
+
+
+    const handleRetry = async () => {
+        await userRefetch()
+        await businessRefetch()
+    }
+    if (isLoadingData) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Header title='Business Information'
+                    //noBack={true}
+                    onPress={() => router.back()} />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size='large' color={Colors.primary} />
+                </View>
+            </SafeAreaView>
+        )
+
+    }
+
+
+    if (isErrorFetching) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Header title='Business Information' onPress={() => router.back()} />
+
+                <CustomEmptyComponent
+                    isError={true}
+
+
+                    mainText='Something Went Wrong'
+                    subText='Unable to load data. Please try again.'
+                    onPress={handleRetry}
+                />
+
+            </SafeAreaView>
+        )
+    }
+
 
     return (
         <View style={{ flex: 1 }}>

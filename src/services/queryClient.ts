@@ -13,9 +13,11 @@ onlineManager.setEventListener(setOnline => {
 
 export const queryClient = new QueryClient({
     defaultOptions: {
+        
         queries: {
             staleTime: 60 * 1000,
             retry: 2,
+            networkMode: 'always',
             refetchOnReconnect: true,
         },
     },

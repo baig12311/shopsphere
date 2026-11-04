@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback} from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Colors from '../../src/constants/colors';
 import { useUser } from '../../src/hooks/useUser';
@@ -7,7 +7,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { Color, router } from 'expo-router';
+import { Color, router , useFocusEffect} from 'expo-router';
 import fonts, { fontSize } from '../../src/constants/typography';
 import Header from '../../src/components/home/Header';
 import LowStockCard from '../../src/components/home/LowStockCard';
@@ -31,6 +31,11 @@ import CustomEmptyComponent from '../../src/components/common/CustomEmptyCompone
 const Home = () => {
     const {isOffline, checkConnection} = useNetworkStatus()
     const [showSelector, setShowSelector] = useState(false)
+    useFocusEffect(
+    useCallback(() => {
+        setShowSelector(false);
+    }, [])
+);
     const [salesPeriod, setSalesPeriod] = useState<'Today' | 'Yesterday' | 'Week' | 'Month'>('Today');
     const { data, error, isLoading: userLoading, error: userError, refetch: userRefetch} = useUser()
 
@@ -63,7 +68,7 @@ const Home = () => {
 
         // network
 
-         if (isOffline ) {
+         if (isOffline) {
         return (
             <SafeAreaView style={styles.container}>
                 <Header

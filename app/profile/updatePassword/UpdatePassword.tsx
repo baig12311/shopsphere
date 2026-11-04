@@ -132,6 +132,7 @@ const UpdatePassword = () => {
                 'Password has been changed successfully.',
 
             );
+            router.back();
         } catch {
             showToast(
                 'error',

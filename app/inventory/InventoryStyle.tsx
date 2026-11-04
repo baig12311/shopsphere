@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     },
     containerStyle:{
         flexGrow: 1, 
-        //marginBottom: hp(6)
+        paddingBottom: hp(6)
     },
     flatlist:{
         borderRadius: wp(2),

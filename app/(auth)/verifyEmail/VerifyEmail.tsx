@@ -111,7 +111,7 @@ const handleResendEmail = async () => {
                 ) : null}
                 <View style={styles.button}>
                      <Button
-                title={isRecovery ? 'Resend reset email' : 'Resend verification email'}
+                title={isRecovery ? 'Resend Reset Email' : 'Resend Verification Email'}
                 disabled={loading}
                 onPress={handleResendEmail}
                 isLoading={loading}

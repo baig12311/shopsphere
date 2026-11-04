@@ -13,21 +13,39 @@ export const logout = async () => {
     router.replace('/OnBoard')
 };
 
+
+
+
 // export const getCurrentUser = async () => {
+//     const { data: sessionData, error: sessionError } =
+//         await supabase.auth.getSession();
+
+//     if (!sessionData.session) {
+//         return null;
+//     }
+
 //     const {
 //         data: { user },
-//         error
-//     } = await supabase.auth.getUser()
+//         error,
+//     } = await supabase.auth.getUser();
+
 //     if (error) {
-//         throw new Error(error.message)
+//         throw error;
 //     }
-//     return user
-// }
+
+//     return user;
+// };
 
 
 export const getCurrentUser = async () => {
-    const { data: sessionData, error: sessionError } =
-        await supabase.auth.getSession();
+    const {
+        data: sessionData,
+        error: sessionError
+    } = await supabase.auth.getSession();
+
+    if (sessionError) {
+        throw sessionError;
+    }
 
     if (!sessionData.session) {
         return null;
@@ -35,7 +53,7 @@ export const getCurrentUser = async () => {
 
     const {
         data: { user },
-        error,
+        error
     } = await supabase.auth.getUser();
 
     if (error) {
@@ -63,6 +81,8 @@ export const sendPasswordResetEmail = async (email: string) => {
             redirectTo,
         });
 
+        console.log('RESET ERROR:', error);
+        console.log('RESET DATA:', data);
     if (error) {
         throw error;
     }

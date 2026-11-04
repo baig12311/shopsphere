@@ -28,6 +28,7 @@ const AddProduct = () => {
     const { productId } = useLocalSearchParams<{
         productId: string;
     }>();
+    console.log('productId', productId)
     const [image, setImage] = useState<string | null>(null)
     const [existingImage, setExistingImage] = useState<string | null>(null);
     const [showSheet, setShowSheet] = useState(false)
@@ -35,7 +36,7 @@ const AddProduct = () => {
     const sheetRef = useRef<BottomSheet>(null)
     const { data: user , isLoading: userLoading, error: userError, refetch: userRefetch} = useUser()
     const { data: business, isLoading: businessLoading, error: businessError, refetch: businessRefetch} = useBusiness(user?.id)
-    const businessId = business.id
+    const businessId = business?.id
     const { data: selectedProduct, isLoading: productLoading, error: productError, refetch: productRefetch} = useProductById(productId)
     const [submitting, setSubmitting] = useState(false)
     const {
@@ -49,8 +50,17 @@ const AddProduct = () => {
         error: updateError,
     } = useUpdateProduct(businessId);
     const isLoading = isPending || pending || submitting
-   const isErrorFetching = userError || businessError || productError
-   const isDataLoadng = userLoading || businessLoading || productLoading
+   const isDataLoading =
+    userLoading ||
+    businessLoading ||
+    (!!productId && productLoading);
+
+const isErrorFetching =
+    userError ||
+    businessError ||
+    (!!productId && productError);
+
+    
 
     const [product, setProduct] = useState({
         productName: '',
@@ -253,7 +263,7 @@ const AddProduct = () => {
         businessRefetch(),
         productRefetch()
     }
-    if(isDataLoadng)
+    if(isDataLoading)
         
 
     {

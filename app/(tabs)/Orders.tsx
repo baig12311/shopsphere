@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback} from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useFocusEffect} from 'expo-router';
 import { useUser } from '../../src/hooks/useUser';
 import { useBusiness } from '../../src/hooks/useBusiness';
 import { useOrders } from '../../src/hooks/useOrders';
@@ -25,19 +25,26 @@ import Status from '../../src/components/sales/Status';
 import OrderCard from '../../src/components/sales/OrderCard';
 import OrderSourceSelector from '../../src/components/common/OrderSourceSelector';
 const Orders = () => {
-    const {isOffline, checkConnection} = useNetworkStatus()
-    const { data, isLoading: userLoading, error: userError, refetch: userRefetch} = useUser()
+    const { isOffline, checkConnection } = useNetworkStatus()
+    const { data, isLoading: userLoading, error: userError, refetch: userRefetch } = useUser()
     const userId = data?.id
-    const { data: business, isLoading: businessLoading, error: businessError, refetch: businessRefetch} = useBusiness(userId)
+    const { data: business, isLoading: businessLoading, error: businessError, refetch: businessRefetch } = useBusiness(userId)
     const businessId = business?.id
     const businessType = business?.business_type
-    const { data: orders, isLoading: ordersLoading, error: ordersError, refetch: ordersRefetch} = useOrders(businessId)
+    const { data: orders, isLoading: ordersLoading, error: ordersError, refetch: ordersRefetch } = useOrders(businessId)
     const [selectedStatus, setSelectedStatus] = useState('All')
     const isLoading = userLoading || businessLoading || ordersLoading
     const [searchText, setSearchText] = useState('')
     const [selectedSource, setSelectedSource] = useState<
         'all' | 'online' | 'physical'
     >('all');
+    useFocusEffect(
+    useCallback(() => {
+        setSearchText('');
+        setSelectedSource('all');
+        setSelectedStatus('All');
+    }, [])
+);
     const isErrorFetching = userError || businessError || ordersError
     // filter orders
     // const filterOrders = orders?.filter(item =>
@@ -48,33 +55,33 @@ const Orders = () => {
     // handleRetry
 
     const handleRetry = async () => {
-    const isConnected = await checkConnection();
+        const isConnected = await checkConnection();
 
-    if (!isConnected) return;
+        if (!isConnected) return;
 
-    await Promise.all([
-        userRefetch(),
-        businessRefetch(),
-        ordersRefetch(),
-    ]);
-};
+        await Promise.all([
+            userRefetch(),
+            businessRefetch(),
+            ordersRefetch(),
+        ]);
+    };
     if (isOffline && orders === undefined) {
         return (
             <SafeAreaView style={styles.container}>
                 <Header title='Orders' onPress={() => router.back()} />
-                    <Input
-                placeholder='Search order by number...'
-                value={searchText}
-                onChangeText={setSearchText}
-                iconName='search-outline'
-                iconType='Ionicons'
-            />
-                <OfflineScreen onPress={handleRetry}/>
+                <Input
+                    placeholder='Search order by number...'
+                    value={searchText}
+                    onChangeText={setSearchText}
+                    iconName='search-outline'
+                    iconType='Ionicons'
+                />
+                <OfflineScreen onPress={handleRetry} />
 
             </SafeAreaView>
         )
     }
-    
+
 
     const filterOrders = orders?.filter(item => {
         const matchesSearch = item.order_number
@@ -97,9 +104,9 @@ const Orders = () => {
     });
 
     const hasActiveFilter =
-    searchText.trim() !== '' ||
-    selectedSource !== 'all' ||
-    selectedStatus !== 'All';
+        searchText.trim() !== '' ||
+        selectedSource !== 'all' ||
+        selectedStatus !== 'All';
     // render order
     const renderOrder = ({ item }: any) => {
         const date = formatDate(item?.created_at)
@@ -170,18 +177,18 @@ const Orders = () => {
         return (
             <SafeAreaView style={styles.container}>
                 <Header title='Orders' onPress={() => router.back()} />
-                    <Input
-                placeholder='Search order by number...'
-                value={searchText}
-                onChangeText={setSearchText}
-                iconName='search-outline'
-                iconType='Ionicons'
-            />
-                <CustomEmptyComponent 
-                isError={true}
-                mainText='Something Went Wrong'
-                subText='Unable to load orders. Please try again.'
-                onPress={handleRetry}
+                <Input
+                    placeholder='Search order by number...'
+                    value={searchText}
+                    onChangeText={setSearchText}
+                    iconName='search-outline'
+                    iconType='Ionicons'
+                />
+                <CustomEmptyComponent
+                    isError={true}
+                    mainText='Something Went Wrong'
+                    subText='Unable to load orders. Please try again.'
+                    onPress={handleRetry}
                 />
 
             </SafeAreaView>
@@ -203,7 +210,7 @@ const Orders = () => {
                     <OrderSourceSelector
                         onSelect={(value) => setSelectedSource(value)}
                         value={selectedSource}
-                        viewOrder = {true}
+                        viewOrder={true}
                     />
                 )
             }
@@ -232,20 +239,29 @@ const Orders = () => {
                 data={filterOrders ?? []}
                 renderItem={renderOrder}
                 keyExtractor={(item) => item.id}
+                keyboardShouldPersistTaps="handled"
+                        keyboardDismissMode="on-drag"
                 contentContainerStyle={{ flexGrow: 1, paddingBottom: hp(6) }}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={
-        <CustomEmptyComponent
-                illustration={require('../../assets/illustrations/noproduct.png')}
-
-            mainText={hasActiveFilter ? 'No orders found' : 'No orders yet'}
-            subText={
-                hasActiveFilter
-                    ? 'Try a different search or filter'
-                    : 'Your orders or sales will appear here'
-            }
-        />
-    }
+    <CustomEmptyComponent
+        illustration={
+            !hasActiveFilter
+                ? require('../../assets/illustrations/noproduct.png')
+                : undefined
+        }
+        mainText={
+            hasActiveFilter
+                ? 'No Matching Orders'
+                : 'No Orders Yet'
+        }
+        subText={
+            hasActiveFilter
+                ? 'No orders match your current search or filters. Try adjusting them.'
+                : 'Your orders and sales will appear here once you start creating them.'
+        }
+    />
+}
             />
 
 

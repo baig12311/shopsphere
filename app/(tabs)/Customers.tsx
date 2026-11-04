@@ -174,17 +174,19 @@ const Customers = () => {
                         renderItem={renderCustomer}
                         keyExtractor={(item: any) => item.id}
                         showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                        keyboardDismissMode="on-drag"
                         ListEmptyComponent={
                             searchText.trim() !== '' ? (
                                 <CustomEmptyComponent
-                                    mainText='No customer found'
-                                    subText='Try searching with a different name.'
+                                    mainText='No Matching Customers'
+                                    subText="We couldn't find any customers matching your search. Try a different keyword."
                                 />
                             ) : (
                                 <CustomEmptyComponent
                                     illustration={require('../../assets/illustrations/nocustomer.png')}
-                                    mainText='No customers yet'
-                                    subText='Add your first customer to start managing their details and orders.'
+                                    mainText='No Customers Yet'
+                                    subText='Your customers will appear here as you start adding them or recording their orders.'
                                 />
                             )
                         }

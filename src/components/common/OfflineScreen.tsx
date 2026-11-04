@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
     emptyTitle: {
         fontSize: fontSize.subHeading,
-        fontFamily: fonts.extraBold,
+        fontFamily: fonts.bold,
         marginBottom: hp(1.5)
     },
 

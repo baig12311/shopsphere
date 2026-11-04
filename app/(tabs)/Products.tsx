@@ -185,18 +185,20 @@ const Products = () => {
                         data={filterProducts ?? []}
                         renderItem={renderProduct}
                         keyExtractor={(item) => item.id}
+                        keyboardShouldPersistTaps="handled"
+                        keyboardDismissMode="on-drag"
                         showsVerticalScrollIndicator={false}
                         ListEmptyComponent={
                             searchText.trim() !== '' ? (
                                 <CustomEmptyComponent
-                                    mainText={`No product found matching ${searchText}`}
-                                    subText='Try another keyword.'
+                                    mainText='No Matching Products'
+                                    subText="We couldn't find any product matching your search. Try a different keyword."
                                 />
                             ) : (
                                 <CustomEmptyComponent
                                     illustration={require('../../assets/illustrations/noproduct.png')}
-                                    mainText='No Product In Stock'
-                                    subText='Start adding your inventory items with prices and stock levels to begin managing your sales.'
+                                    mainText='No Products Yet'
+                                    subText="Your products will appear here once you add them to your inventory."
                                 />
                             )
                         }
