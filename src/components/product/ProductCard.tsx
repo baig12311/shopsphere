@@ -49,7 +49,7 @@ const ProductCard: React.FC<props> = ({ name, stock, price, lowStock, currency,
 
             <View style={styles.content}>
                 <View style={styles.option}>
-                    <Text style={[styles.name, { color: Colors.text }]}>{name}</Text>
+                    <Text numberOfLines={1} style={[styles.name, { color: Colors.text }]}>{name}</Text>
                     <TouchableOpacity
                         activeOpacity={0.7}
                         style={{ paddingLeft: wp(2) }}
@@ -157,6 +157,7 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: fonts.semiBold,
         fontSize: fontSize.text,
+        flexShrink: 1
     },
     badge: {
         fontFamily: fonts.medium,

@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
         width: wp(20),
         height: wp(20),
         borderRadius: wp(2),
-        borderWidth: 0.2,
-        borderColor: Colors.textSecondary
+        borderWidth: 0.5,
+        borderColor: Colors.border
     },
     textContainer:{
         marginLeft: wp(3),

@@ -49,7 +49,7 @@ const ItemCard: React.FC<props> = ({ isLast, onIcrease, onDecrease, onPressRemov
 
             <View style={styles.content}>
 
-                <Text style={styles.name} numberOfLines={2}>{name}</Text>
+                <Text style={styles.name} numberOfLines={1}>{name}</Text>
 
 
 

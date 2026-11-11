@@ -3,6 +3,7 @@ import { captureRef } from 'react-native-view-shot';
 import * as Sharing from 'expo-sharing';
 import { View, Text, ScrollView, Image} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as Print from 'expo-print';
 import { File, Paths } from 'expo-file-system';
@@ -473,7 +474,7 @@ const Receipt = () => {
 
                         {
                             order?.customer?.phone && (
-                                <Text style={styles.customer}>
+                                <Text style={[styles.customer, {marginBottom: hp(1)}]}>
                                     Phone: {order.customer.phone}
                                 </Text>
                             )
@@ -482,9 +483,9 @@ const Receipt = () => {
                         <View style={styles.invoiceTable}>
 
                             <InvoiceRow
-                                name='Name'
+                                name='Product Name'
                                 quantity='Qty'
-                                price='Price'
+                                price='Unit Price'
                                 subTotal='Total'
                                 isHeading={true}
                             />

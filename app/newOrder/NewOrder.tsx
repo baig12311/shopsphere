@@ -98,7 +98,7 @@ const NewOrder = () => {
             showToast(
                 'error',
                 'Out of Stock',
-                'This item is out of stock. This cannot be added'
+                'This item is out of stock. It cannot be added'
             )
             return;
         }
@@ -130,7 +130,7 @@ const NewOrder = () => {
             showToast(
                 'error',
                 'Duplicate Selection',
-                'This item is already added to your items'
+                'This item is already added to your bill.'
             )
 
             return;
@@ -140,7 +140,7 @@ const NewOrder = () => {
 
     // remove item from order
     const removeItem = (itemId: string) => {
-        const newList = orderItems.filter((item: any) => item.id !== itemId)
+        const newList = orderItems.filter((item: any) => item.product_id !== itemId)
         setOrderItems(newList)
     }
     // Open Sheet
@@ -181,21 +181,51 @@ const NewOrder = () => {
         setShowSheet(false);
     };
 
-    const increaseQuantity = (productId: string) => {
-        setOrderItems((prev: any) =>
-            prev.map((item: any) => {
-                if (item.product_id !== productId) return item;
+    // const increaseQuantity = (productId: string) => {
+    //     setOrderItems((prev: any) =>
+    //         prev.map((item: any) => {
+    //             if (item.product_id !== productId) return item;
 
-                return {
-                    ...item,
-                    quantity: Math.min(
-                        item.quantity + 1,
-                        item.stock_quantity
-                    ),
-                };
-            })
+                
+
+    //             return {
+    //                 ...item,
+    //                 quantity: Math.min(
+    //                     item.quantity + 1,
+    //                     item.stock_quantity
+    //                 ),
+    //             };
+    //         })
+    //     );
+    // };
+
+    const increaseQuantity = (productId: string) => {
+    const selectedItem = orderItems.find(
+        (item: any) => item.product_id === productId
+    );
+
+    if (!selectedItem) return;
+
+    if (selectedItem.quantity >= selectedItem.stock_quantity) {
+        showToast(
+            'error',
+            'Stock Limit Reached',
+            `Only ${selectedItem.stock_quantity} units available in stock.`
         );
-    };
+        return;
+    }
+
+    setOrderItems((prev: any) =>
+        prev.map((item: any) =>
+            item.product_id === productId
+                ? {
+                      ...item,
+                      quantity: item.quantity + 1,
+                  }
+                : item
+        )
+    );
+};
 
     const decreaseQuantity = (productId: string) => {
         setOrderItems((prev: any) =>
@@ -378,7 +408,7 @@ const NewOrder = () => {
                                     'Select Product',
                                     products ?? [],
                                     selectedProduct,
-                                    ['name', 'price', 'stock_quantity'],
+                                    ['name', 'price', 'stock_quantity', 'image_url'],
                                     'products',
                                     'No Products Yet',
                                     'Add products first to create order'
@@ -404,7 +434,7 @@ const NewOrder = () => {
                                                 imageurl={item.image_url}
                                                 stock={item.stock_quantity}
                                                 quantity={item.quantity}
-                                                onPressRemove={() => removeItem(item.id)}
+                                                onPressRemove={() => removeItem(item.product_id)}
                                                 onIcrease={() => increaseQuantity(item.product_id)}
                                                 onDecrease={() => decreaseQuantity(item.product_id)}
                                                 isLast={index === orderItems.length - 1}

@@ -79,22 +79,25 @@ const OnlineOrderCard: React.FC<props> = ({ orderSource, status, customer, onPre
             }
 
 
-            <Text style={styles.date}>{date}</Text>
+            <Text style={styles.dateO}>{date}</Text>
             {
                 status !== 'Cancelled' && (
                     <View style={styles.amountRow}>
-                        <Text style={styles.date}>Total: <Text style={{ color: Colors.text }}>{currency} {amount.toLocaleString()}</Text></Text>
+                        <Text numberOfLines={1} style={styles.date}>Total: <Text style={{ color: Colors.text }}>{currency} {amount.toLocaleString()}</Text></Text>
                         <View style={styles.divider} />
-                        <Text style={styles.date}>Paid: <Text style={{ color: Colors.primary }}>{currency} {totalPaid.toLocaleString()}</Text></Text>
+                        <Text numberOfLines={1} style={styles.date}>Paid: <Text style={{ color: Colors.primary }}>{currency} {totalPaid.toLocaleString()}</Text></Text>
 
                         {
-                            due < 0 && (
+                            due < 0 ? (
                                 <>
                                     <View style={styles.divider} />
-                                    <Text style={styles.date}>Due: <Text style={{ color: Colors.error }}>{currency} {due.toLocaleString()}</Text></Text>
+                                    <Text numberOfLines={1} style={styles.date}>Due: <Text style={{ color: Colors.error }}>{currency} {due.toLocaleString()}</Text></Text>
                                 </>
 
 
+                            ) : 
+                            (
+                                <View style={{ flex: 1 }} />
                             )
                         }
                     </View>
@@ -134,7 +137,15 @@ const styles = StyleSheet.create({
     date: {
         fontFamily: fonts.medium,
         fontSize: fontSize.extraSmallText,
-        color: Colors.textSecondary
+        color: Colors.textSecondary,
+        flex:1,
+        flexShrink:1,
+        textAlign:'center'
+    },
+    dateO: {
+        fontFamily: fonts.medium,
+        fontSize: fontSize.extraSmallText,
+        color: Colors.textSecondary,
     },
     header: {
         flexDirection: 'row',
@@ -146,7 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
         marginTop: hp(1),
-        flexWrap: 'wrap'
     },
     divider: {
         height: hp(2.5),

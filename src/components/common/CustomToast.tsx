@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         padding: wp(3),
         backgroundColor: 'white',
         zIndex: 10,
-        top: hp(4),
+        top: hp(6),
         borderLeftWidth: 5,
         elevation: 5,
         flexDirection: 'row'

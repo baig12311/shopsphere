@@ -3,7 +3,7 @@
     "name": "ShopSphere",
     "slug": "shopsphere",
     "scheme": "shopsphere",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/appAssets/appIcon.png",
     "userInterfaceStyle": "light",

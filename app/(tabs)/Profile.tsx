@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Colors from '../../src/constants/colors';
+import Constants from 'expo-constants';
 import { router } from 'expo-router';
 import { logout } from '../../src/services/authService';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,8 +19,8 @@ import {
     heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 import fonts, { fontSize } from '../../src/constants/typography';
-import { tr } from 'zod/v4/locales';
 const Profile = () => {
+    const appVersion = Constants.expoConfig?.version ?? '1.0.0';
     const [showDialog, setShowDialog] = useState(false)
     const [showAccountDialog, setShowAccountDialog] = useState(false)
     const { data, isLoading } = useUser()
@@ -58,7 +59,7 @@ const Profile = () => {
                 <View style={styles.section}>
                     <CustomSectionRow
                         mainText='Personal Details'
-                        subText='Full name and email address'
+                        subText='Manage your personal details'
                         iconName='person-outline'
                         iconType='Ionicons'
                         paddingVertical={hp(1)}
@@ -128,7 +129,7 @@ const Profile = () => {
                     ShopSphere
                 </Text>
                 <Text style={styles.version}>
-                    Version 1.0.0
+                    Version {appVersion}
                 </Text>
                 </View>
                 

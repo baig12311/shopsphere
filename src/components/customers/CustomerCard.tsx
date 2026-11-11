@@ -44,7 +44,7 @@ const CustomerCard: React.FC<props> = ({ name, phone, onPress, order, currency, 
                 <View style={styles.amountRow}>
 
                     {
-                        order && Number(order) > 0 && <Text style={styles.textData}>{order} {order > 1 ? 'Orders' : 'Order'}</Text>
+                        Number(order) > 0 && <Text style={styles.textData}>{order} {Number(order) > 1 ? 'Orders' : 'Order'}</Text>
                     }
 
                     {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
     },
     divider: {
-        height: hp(3),
+        height: hp(2.5),
         borderWidth: 0.5,
         borderColor: Colors.textMuted
     },

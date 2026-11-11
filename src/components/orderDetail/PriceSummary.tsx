@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../../constants/colors';
-
+import FormatPrice from '../../utils/FormatPrice';
 import fonts, { fontSize } from '../../constants/typography';
 import {
     widthPercentageToDP as wp,
@@ -25,6 +25,7 @@ const PriceSummaryCard: React.FC<Props> = ({currency, subTotal, total, paid, dis
                 info={subTotal.toLocaleString()}
                 fontWeight={fonts.medium}
                 fsize={fontSize.text}
+                currency={currency}
             />
             <Row
                 title='Discount'
@@ -43,7 +44,7 @@ const PriceSummaryCard: React.FC<Props> = ({currency, subTotal, total, paid, dis
             />
             <Row
                 title='Amount Paid'
-                info={paid.toLocaleString()}
+                info={PaidAmount.toLocaleString()}
                 fontWeight={fonts.medium}
                 fsize={fontSize.text}
                 currency={currency}
@@ -78,7 +79,12 @@ const Row: React.FC<props> = ({ currency, title, info, fontWeight, fsize, isBord
     return (
         <View style={[styles.row, isBorder && {borderBottomWidth: 0.3}]}>
             <Text style={{fontFamily: fontWeight, fontSize:fsize}}>{title}</Text>
-            <Text  style={{fontFamily: fontWeight, fontSize:fsize}}>{currency} {info}</Text>
+            <FormatPrice 
+            price={info} 
+            currency={currency} 
+            priceFont={fontWeight} 
+            priceFontSize={fsize} />
+            {/* <Text  style={{fontFamily: fontWeight, fontSize:fsize}}>{currency} {info}</Text> */}
         </View>
     )
 

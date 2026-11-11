@@ -313,8 +313,8 @@ const ProductDetail = () => {
                         maincolor={Colors.primary}
                         subColor={Colors.textSecondary}
                         bgColor={Colors.surface}
-                        borderColor={Colors.textSecondary}
-                        borderWidth={0.3}
+                        borderColor={Colors.border}
+                        borderWidth={0.5}
                         onPress={() => setShowAdjustStock(true)}
                     />
                 </View>

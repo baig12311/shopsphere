@@ -14,13 +14,14 @@ interface props {
     isDelete?:boolean
 }
 const Button: React.FC<props> = ({ title, onPress, isLoading, disabled, isDelete}) => {
-    const isStatus = title === 'Change status'
+    const isStatus = title === 'Change Status'
     return (
         <TouchableOpacity
             style={[styles.container,
             isLoading && { backgroundColor: Colors.textMuted },
             disabled && { backgroundColor: Colors.textMuted },
-            (isDelete && !disabled) && {backgroundColor: Colors.error}
+            (isDelete && !disabled) && {backgroundColor: Colors.error},
+            isStatus && {height: hp(5)}
             ]}
             activeOpacity={0.7}
             onPress={onPress}

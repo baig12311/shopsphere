@@ -6,6 +6,7 @@ import Button from '../../src/components/common/Button';
 import Header from '../../src/components/common/Header';
 import Colors from '../../src/constants/colors';
 import Icon from '../../src/components/common/Icon';
+import fonts, { fontSize } from '../../src/constants/typography';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import OutlineButton from '../../src/components/common/OutlineButton';
 import { useUser } from '../../src/hooks/useUser';
@@ -24,6 +25,7 @@ import { useToast } from '../../src/context/ToastContext';
 // import { OrderStatusType } from '../../src/components/sales/ChangeStatusModal';
 import styles from './orderStyle';
 import ConfirmationDialog from '../../src/components/common/ConfirmationDialog';
+import PriceFormat from '../../src/utils/FormatPrice';
 const OrderDetail = () => {
     const {showToast} = useToast()
     const { orderId } = useLocalSearchParams<{ orderId: string }>()
@@ -147,7 +149,7 @@ const OrderDetail = () => {
 
                     orderStatus={orderStatus}
                 />
-                <Text style={styles.sectionTitle}>Order Items</Text>
+                <Text style={styles.sectionTitle}>Order Items ({order?.order_items?.length})</Text>
                 <OrderItems
                     orderItem={order?.order_items}
                 />
@@ -160,7 +162,15 @@ const OrderDetail = () => {
                     change={returnAmount}
                     currency={business?.currency}
                 />
+                {/* testing of price formatter */}
 
+                <PriceFormat
+                    price={order?.total_amount}
+                    currency={business?.currency}
+                    priceFont={fonts.bold}
+                    priceColor={Colors.text}
+                    priceFontSize={fontSize.subHeading}
+                />
                 {
                     orderStatus && (<>
                         <Text style={styles.sectionTitle}>Order Status</Text>
@@ -179,7 +189,7 @@ const OrderDetail = () => {
                                         </View>
                                         <View style={{ flex: 1 }}>
                                             <Button
-                                                title='Change status'
+                                                title='Change Status'
                                                 onPress={() => setShowModal(true)}
                                             />
                                         </View>

@@ -29,9 +29,9 @@ const LowStockCard: React.FC<props> = ({ onPress, title, stock, imageurl }) => {
                 />) : (
                     <View style={styles.placeholder}>
                         <Icon
-                            name='package-variant-closed'
-                            type='MaterialDesignIcons'
-                            size={wp(6)}
+                            name='cube-outline'
+                            type='Ionicons'
+                            size={wp(5)}
                             color={Colors.primary}
                         />
                     </View>
@@ -56,7 +56,7 @@ const LowStockCard: React.FC<props> = ({ onPress, title, stock, imageurl }) => {
                     name='chevron-small-right'
                     type='Entypo'
                     size={wp(7)}
-                    color={Colors.text}
+                    color={Colors.textSecondary}
                 />
            
 
@@ -101,8 +101,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: wp(2),
-        borderColor: Colors.textMuted,
-        backgroundColor: Colors.textMuted
+        borderColor: Colors.background,
+        backgroundColor: Colors.background,
         //overflow: 'hidden'
     },
     textContainer: {

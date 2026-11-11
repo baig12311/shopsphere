@@ -28,7 +28,7 @@ const Header: React.FC<props> = ({ userName, business, imageurl }) => {
                 <Text style={styles.text} numberOfLines={1}>{getGreeting()} 👋, <Text style={{
                     fontFamily: fonts.extraBold, color: Colors.text
                 }}>{userName}</Text></Text>
-                <Text style={[styles.text, { fontFamily: fonts.extraBold, color: Colors.text }]}>{business}</Text>
+                <Text style={[styles.text, { fontFamily: fonts.extraBold, color: Colors.text }]} numberOfLines={1}>{business}</Text>
             </View>
 
             <Image

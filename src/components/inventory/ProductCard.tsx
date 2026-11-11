@@ -46,7 +46,9 @@ const ProductCard: React.FC<props> = ({onPress, title, stock, imageurl, lowStock
             {/* </View> */}
 
             <View style={styles.textContainer}>
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title} numberOfLines={1}>
+                    {title}
+                </Text>
                 {/* <Text style={styles.text}>{stock}</Text> */}
                 <View style={styles.stockContainer}>
 
@@ -88,6 +90,8 @@ const styles = StyleSheet.create({
         fontFamily: fonts.semiBold,
         fontSize: fontSize.text,
         color: Colors.text,
+        width: '65%',
+        marginBottom: hp(0.5),
         //marginBottom: hp(1)
     },
     text: {

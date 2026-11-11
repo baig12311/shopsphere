@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         flex:1,
         alignItems: 'center',
         paddingVertical: hp(1),
-        borderRadius: wp(2),
+        borderRadius: wp(1),
         //backgroundColor: Colors.background
     },
     btnText:{
