@@ -28,7 +28,6 @@ const AddProduct = () => {
     const { productId } = useLocalSearchParams<{
         productId: string;
     }>();
-    console.log('productId', productId)
     const [image, setImage] = useState<string | null>(null)
     const [existingImage, setExistingImage] = useState<string | null>(null);
     const [showSheet, setShowSheet] = useState(false)

@@ -315,7 +315,7 @@ const handleWhatsApp = async () => {
                             <Row
                                 iconName="call-outline"
                                 iconType="Ionicons"
-                                rowTitle={customer.phone}
+                                rowTitle={customer?.phone}
                             />
                         )}
 
@@ -323,7 +323,7 @@ const handleWhatsApp = async () => {
                             <Row
                                 iconName="mail-outline"
                                 iconType="Ionicons"
-                                rowTitle={customer.email}
+                                rowTitle={customer?.email}
                             />
                         )}
 

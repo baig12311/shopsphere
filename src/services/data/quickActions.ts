@@ -1,10 +1,16 @@
 import { router } from "expo-router"
 export const quickActions=[
     {
-        title:'Create Order',
-        name:'receipt-outline',
+        title:'Track Inventory',
+        name:'file-tray-full-outline',
         type:'Ionicons',
-        onPress: ()=>router.push('/newOrder/NewOrder')
+        onPress:()=>router.push('/inventory/Inventory')
+    },
+    {
+        title:'Expenses',
+        name:'wallet-outline',
+        type:'Ionicons',
+        onPress: ()=>router.push('/expense/Expense')
     },
     {
         title:'Add Product',
@@ -19,9 +25,9 @@ export const quickActions=[
         onPress:()=>router.push('/addCustomer/AddCustomer')
     },
     {
-        title:'Track Inventory',
-        name:'file-tray-full-outline',
+        title:'Create New Order',
+        name:'receipt-outline',
         type:'Ionicons',
-        onPress:()=>router.push('/inventory/Inventory')
-    }
+        onPress: ()=>router.push('/newOrder/NewOrder')
+    },
 ]

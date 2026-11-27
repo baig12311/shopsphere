@@ -164,13 +164,7 @@ const OrderDetail = () => {
                 />
                 {/* testing of price formatter */}
 
-                <PriceFormat
-                    price={order?.total_amount}
-                    currency={business?.currency}
-                    priceFont={fonts.bold}
-                    priceColor={Colors.text}
-                    priceFontSize={fontSize.subHeading}
-                />
+                
                 {
                     orderStatus && (<>
                         <Text style={styles.sectionTitle}>Order Status</Text>

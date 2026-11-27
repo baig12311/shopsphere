@@ -30,6 +30,11 @@ const NewOrder = () => {
     const { data: business } = useBusiness(user?.id)
     const { data: customers } = useCustomers(business?.id)
     const { data: products } = useProducts(business?.id)
+    const customerData =[
+        {name: 'user 2', phone: '+92 XXXXXXXXXX'},
+        {name: 'user 2', phone: '+92 XXXXXXXXXX'},
+        {name: 'user 2', phone: '+92 XXXXXXXXXX'},
+    ]
     const [emptyMessage, setEmptyMessage] = useState('')
     const [emptyTitle, setEmptyTitle] = useState('')
     const {

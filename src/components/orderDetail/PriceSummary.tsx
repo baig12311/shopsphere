@@ -79,12 +79,12 @@ const Row: React.FC<props> = ({ currency, title, info, fontWeight, fsize, isBord
     return (
         <View style={[styles.row, isBorder && {borderBottomWidth: 0.3}]}>
             <Text style={{fontFamily: fontWeight, fontSize:fsize}}>{title}</Text>
-            <FormatPrice 
+            {/* <FormatPrice 
             price={info} 
             currency={currency} 
             priceFont={fontWeight} 
-            priceFontSize={fsize} />
-            {/* <Text  style={{fontFamily: fontWeight, fontSize:fsize}}>{currency} {info}</Text> */}
+            priceFontSize={fsize} /> */}
+            <Text  style={{fontFamily: fontWeight, fontSize:fsize}}>{currency} {info}</Text>
         </View>
     )
 

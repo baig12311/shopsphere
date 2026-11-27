@@ -91,7 +91,6 @@ const Customers = () => {
         },
         0
     );
-
         return (
             <CustomerCard
                 name={item.name}

@@ -34,8 +34,7 @@ const ActionCard:React.FC<props> = ({iconName, iconType, title, onPress}) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: wp(22),
-        //height: hp(10),
+        width: wp(29),
         paddingVertical: hp(1),
         backgroundColor: Colors.surface,
         elevation:1,

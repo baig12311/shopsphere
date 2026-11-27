@@ -586,7 +586,9 @@ const styles = StyleSheet.create({
 
     actionRow: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
+        gap: 10,
+        flexWrap: 'wrap',
     },
 
     section: {
